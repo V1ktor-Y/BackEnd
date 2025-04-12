@@ -2,12 +2,17 @@ const express = require("express");
 const app = express();
 const PORT = 8888;
 
-let data = {
-  name: "John",
-};
+let data = ["John"];
+
+app.use(express.json());
 
 // CRUD: Create - post, Read - get, Update - put, Delete - delete
 // '/' is the home route
+
+app.get("/index.html", (req, res) => {
+  res.sendFile("index.html", { root: __dirname });
+});
+
 app.get("/", (req, res) => {
   console.log("Main", req.method);
 
@@ -40,6 +45,9 @@ app.get("/api/data", (req, res) => {
 
 app.post("/api/data", (req, res) => {
   const newEntry = req.body;
+  console.log(newEntry);
+  data.push(newEntry.name);
+  res.sendStatus(201);
 });
 
 // Webside endpoints (sends HTML)
