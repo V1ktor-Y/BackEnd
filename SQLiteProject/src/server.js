@@ -3,6 +3,7 @@ import path, { dirname } from 'path'
 import { fileURLToPath } from 'url'
 import authRoutes from './routes/authRoutes.js'
 import todoRoutes from './routes/todoRoutes.js'
+import authMiddleware from './middleware/authMiddleware.js'
 
 const app = express()
 const PORT = process.env.PORT || 2323
@@ -21,6 +22,6 @@ app.get('/', (req, res) => {
 
 //If gets a request from '/auth' it will redirect the request to authRoutes.js
 app.use('/auth', authRoutes)
-app.use('/todos', todoRoutes)
+app.use('/todos', authMiddleware, todoRoutes)
 
 app.listen(PORT, () => console.log(`Server running at http://localhost:${PORT}`))
