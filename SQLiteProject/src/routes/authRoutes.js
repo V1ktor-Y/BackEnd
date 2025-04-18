@@ -40,8 +40,8 @@ router.post('/register', (req, res) => {
 })
 
 router.post('/login', (req, res) => {
-	//check if password checks out by encrypting it and checking it against the
-	//encrypted password
+	// check if password checks out by encrypting it and checking it
+	// against the encrypted password
 
 	const { username, password } = req.body
 
@@ -49,17 +49,17 @@ router.post('/login', (req, res) => {
 		const getUser = db.prepare(`SELECT * FROM users WHERE username = ?`)
 		const user = getUser.get(username)
 
-		//Check for user
+		// Check for user
 		if (!user) {
 			return res.status(404).send({ message: `User not found` })
 		}
-		//Check password
+		// Check password
 		const isPasswordValid = bcrypt.compareSync(password, user.password)
 		if (!isPasswordValid) {
 			return res.status(401).send({ message: `Invalid password` })
 		}
 
-		//User found
+		// User found
 		const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, { expiresIn: '24h' })
 		console.log(`Succesfully logged in!`)
 		res.json({ token })

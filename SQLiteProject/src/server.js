@@ -13,14 +13,14 @@ const __filename = fileURLToPath(import.meta.url)
 // Get the dir name from the file path
 const __dirname = dirname(__filename)
 app.use(express.json())
-// Serves the html file from the 'public' dir
 app.use(express.static(path.join(__dirname, '../public')))
 
 app.get('/', (req, res) => {
 	res.sendFile(path.join(__dirname, 'public', 'index.html'))
 })
 
-//If gets a request from '/auth' it will redirect the request to authRoutes.js
+// If gets a request from '/auth' it will redirect the request to authRoutes.js
+// and the same goes for '/todo'
 app.use('/auth', authRoutes)
 app.use('/todos', authMiddleware, todoRoutes)
 
